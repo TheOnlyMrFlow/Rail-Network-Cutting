@@ -1,0 +1,6 @@
+Rennes(Source) 1 7
+Paris 5 7
+Lille 5 9
+Strasbourg 9 6
+Lyon(Sink) 8 3
+Marseille 5 1
