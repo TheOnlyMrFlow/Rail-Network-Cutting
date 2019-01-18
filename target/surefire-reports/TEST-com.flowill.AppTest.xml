@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.flowill.AppTest" time="0.027" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.flowill.AppTest" time="0.036" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -18,7 +18,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_121\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\comte\AppData\Local\Temp\surefire7695726882733775201\surefirebooter3986200581817725311.jar C:\Users\comte\AppData\Local\Temp\surefire7695726882733775201 2019-01-18T17-25-05_126-jvmRun1 surefire3249101299277275529tmp surefire_04533965801601818556tmp"/>
+    <property name="sun.java.command" value="C:\Users\comte\AppData\Local\Temp\surefire6620646066128892569\surefirebooter9045728474984990157.jar C:\Users\comte\AppData\Local\Temp\surefire6620646066128892569 2019-01-18T18-46-32_568-jvmRun1 surefire8564193860985427077tmp surefire_02694044567097576644tmp"/>
     <property name="surefire.test.class.path" value="C:\Users\comte\Desktop\RailNetCut\rail-net-cut\target\test-classes;C:\Users\comte\Desktop\RailNetCut\rail-net-cut\target\classes;C:\Users\comte\.m2\repository\com\googlecode\princeton-java-introduction\stdlib\1.0.1\stdlib-1.0.1.jar;C:\Users\comte\.m2\repository\java3d\vecmath\1.3.1\vecmath-1.3.1.jar;C:\Users\comte\.m2\repository\java3d\j3d-core-utils\1.3.1\j3d-core-utils-1.3.1.jar;C:\Users\comte\.m2\repository\java3d\j3d-core\1.3.1\j3d-core-1.3.1.jar;C:\Users\comte\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\comte\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\comte"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\comte\AppData\Local\Temp\surefire7695726882733775201\surefirebooter3986200581817725311.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\comte\AppData\Local\Temp\surefire6620646066128892569\surefirebooter9045728474984990157.jar"/>
     <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_121\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_121\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_121\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_121\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_121\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_121\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_121\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_121\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -60,5 +60,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.flowill.AppTest" time="0.001"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.flowill.AppTest" time="0.002"/>
 </testsuite>

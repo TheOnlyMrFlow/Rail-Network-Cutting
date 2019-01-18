@@ -20,13 +20,16 @@ public class AdjacencyNetwork <Vertex> {
 	private Vertex source;
 	private Vertex sink;
 	
-	public int maxFlowFound;
+	public int maxFlowFound; //not used in algos, just here for displaying purpose
 	
 	// original graph
 	private Map<Edge, Vertex> edgesToSrc = new HashMap<Edge, Vertex>();
 	private Map<Edge, Vertex> edgesToDest = new HashMap<Edge, Vertex>();
-	private Map<Vertex, Set<Edge> > vertexToOutgoingEdges= new HashMap<Vertex, Set<Edge>>();
 	
+	//Having only outgoing edges is very usefull to loop on neighbours vertices while knowing the edge we took
+	private Map<Vertex, Set<Edge> > vertexToOutgoingEdges= new HashMap<Vertex, Set<Edge>>(); 
+	
+	// those 3 getters are for displaying the game
 	public Map<Edge, Vertex> getEdgesToSrc() {
 		return Collections.unmodifiableMap(this.edgesToSrc);
 	}
@@ -41,8 +44,10 @@ public class AdjacencyNetwork <Vertex> {
 	private Map<Edge, Vertex> residualEdgesToSrc = new HashMap<Edge, Vertex>(edgesToSrc);
 	private Map<Edge, Vertex> residualEdgesToDest = new HashMap<Edge, Vertex>(edgesToDest);
 	private Map<Vertex, Set<Edge> > residualVertexToOutgoingEdges= new HashMap<Vertex, Set<Edge>>(vertexToOutgoingEdges);
-	private Map<Edge, Edge> residualEdgeToEdge = new HashMap<Edge, Edge>(); // find corresponding edges in the original graph
-	private Map<Edge, Edge> residualEdgeToReverse = new HashMap<Edge, Edge>(); // find reverse edge of a given edge in residual graph
+	// find an edge in the original graph that corresponds to one in the residual
+	private Map<Edge, Edge> residualEdgeToEdge = new HashMap<Edge, Edge>(); 
+	// find reverse edge of a given edge in residual graph
+	private Map<Edge, Edge> residualEdgeToReverse = new HashMap<Edge, Edge>(); 
 	
 	
 	public void setSrc (Vertex src) {
@@ -61,6 +66,9 @@ public class AdjacencyNetwork <Vertex> {
 		return v == this.source; // == is meant here
 	}
 	
+
+	// adding an edge fills up both original and residual graphs so we dont waste an etra O(E) loop for filling the residual
+	// the drawback is that we can only run the maxflow algorithm once
 	public void addEdge (Edge e, Vertex from, Vertex to) {
 		
 		// fill original graph
@@ -106,11 +114,11 @@ public class AdjacencyNetwork <Vertex> {
 	
 	
 	
-	public int maxFlow() {		
+	public int maxFlow() {	
+		
+		//ford-fulkerson algorithm
 		
 		Map<Edge, Integer> edgesToFlow = new HashMap<Edge, Integer>();
-		
-
 		
 		for (Edge e : edgesToSrc.keySet()) {
 			edgesToFlow.put(e, 0);
@@ -120,15 +128,20 @@ public class AdjacencyNetwork <Vertex> {
 		
 		boolean foundPath = true;
 		
+		// while there is an augmenting path from s to t
+		// since we use edmond karp, this will be executed no more than E times
 		while (foundPath) {
 			
 			foundPath = false;
 		
-		//bfs for shortest path (edgard kamps ftw)		
-		
+			// Edmond Karp special case : we use bfs to find path		
 		
 			Map<Vertex, Vertex> verticesHistory = new HashMap<Vertex, Vertex>();
-			Map<Vertex, Integer> vertexToBottleNeck = new HashMap<Vertex, Integer>(); // keeps track of the min capacity of the edges we took to arrive at this point
+			// keeps track of the min capacity of the edges we took to arrive at this point
+			// so we dont have to loop through the found path an extra time to find bottleneck
+			Map<Vertex, Integer> vertexToBottleNeck = new HashMap<Vertex, Integer>(); 
+			// edge history is usefull once we found a path : we just augment flow on every one of them
+			// without having to find them back from the verticesHistoryMap
 			Map<Vertex, Edge> edgeHistory = new HashMap<Vertex, Edge>();
 			Queue<Vertex> toVisitQueue = new LinkedList<Vertex>();
 			toVisitQueue.add(this.source);
@@ -139,9 +152,10 @@ public class AdjacencyNetwork <Vertex> {
 				
 				visiting = toVisitQueue.remove();
 				
-				//loop on neighbors
+				//loop on neighbors in residual graph
 				for (Edge e : residualVertexToOutgoingEdges.get(visiting)) {
 					
+					// 0 capacity is just like a non exisisting edge
 					if (e.capacity == 0) {
 						continue;
 					}
@@ -162,14 +176,20 @@ public class AdjacencyNetwork <Vertex> {
 							
 							maxFlow += currentMinCap;
 							
+							// we go through the found path and update both flow and residual graph
 							while (v != this.source) {
 								Edge residualEdge = edgeHistory.get(v);
+
+								// remove residual capacity in the ingoing direction
 								residualEdge.capacity -= currentMinCap;
-								//addEdgeResidual(currentMinCap, edgesToDest.get(ee), edgesToSrc.get(ee));
 								
+								// add residual capacity in the reverse direction
 								residualEdgeToReverse.get(residualEdge).capacity += currentMinCap; 
+
+
 								Edge originalEdge = residualEdgeToEdge.get(residualEdge);
 								
+								// was it an undo operation or not ? if not we add flow, if yes we remove flow
 								boolean parallel = edgesToSrc.get(originalEdge) == residualEdgesToSrc.get(residualEdge);
 								edgesToFlow.put(originalEdge, parallel ? currentMinCap : - currentMinCap);								
 								
@@ -207,7 +227,8 @@ public class AdjacencyNetwork <Vertex> {
 	
 	public Set<Edge> minCut() {	//to be run after maxFlow()
 		
-		
+		// we first find all vertices in the residual graph that are reachable from the source
+
 		Set<Vertex> reachable = new HashSet<Vertex>();
 
 		Queue<Vertex> toVisitQueue = new LinkedList<Vertex>();
@@ -229,6 +250,9 @@ public class AdjacencyNetwork <Vertex> {
 				}
 			}
 		}
+
+		// for every of the reachable vertices, we check if an edge connect them to a non reachable one.
+		// if so, it means this edge must be cut
 		
 		System.err.println("Edges to cut : (id starts from 0)");
 		Set<Edge> minCutEdges = new HashSet<Edge>();
@@ -250,7 +274,11 @@ public class AdjacencyNetwork <Vertex> {
 	}
 	
 	
+	// try the solution provided by user
 	public Result trySolution(Set<Edge> neutralizedEges) {
+		
+		//1st check if the user isolated the src from the sink
+		
 		Queue<Vertex> toVisitQueue = new LinkedList<Vertex>();
 		Set<Vertex> visited = new HashSet<Vertex>();
 		toVisitQueue.add(this.source);
@@ -277,6 +305,8 @@ public class AdjacencyNetwork <Vertex> {
 				}
 			}
 		}
+
+		// if he isolated src and sink, we check if his solution is optimal :
 		
 		int cutCap = 0;
 		for (Edge e : neutralizedEges) {
