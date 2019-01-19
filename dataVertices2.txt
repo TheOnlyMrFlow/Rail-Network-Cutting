@@ -1,0 +1,7 @@
+Source 1 5
+A 3 7
+B 6 7
+C 6 5
+D 5 3
+E 3 3
+Sink 9 5

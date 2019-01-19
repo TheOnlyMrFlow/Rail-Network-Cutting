@@ -2,7 +2,8 @@ Paris Lyon(Sink) 7
 Rennes(Source) Paris 6
 Marseille Paris 4
 Paris Lille 5
-Rennes(Source) Marseille 6
+Rennes(Source) Marseille 12
 Marseille Lyon(Sink) 4
 Lille Strasbourg 3
 Paris Strasbourg 4
+Strasbourg Lyon(Sink) 7
