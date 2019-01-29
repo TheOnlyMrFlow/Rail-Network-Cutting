@@ -11,6 +11,9 @@ import edu.princeton.cs.introcs.StdDraw;
 
 
 public class Game {
+
+	public static int maxCoord = 0;
+	private float fmaxCoord = 0.01f;
 	
 	private AdjacencyNetwork<Station> network;
 	private Map<Edge, Double[]> edgeToClickablePoint = new HashMap<Edge, Double[]>();
@@ -21,7 +24,9 @@ public class Game {
 	
 	public Game(AdjacencyNetwork<Station> network) {
 		this.network = network;
-		StdDraw.setCanvasSize(800, 800);
+		StdDraw.setCanvasSize(1500, 900);
+		fmaxCoord = (float) Game.maxCoord; 
+		fmaxCoord *= 1.15f;
 		
 		
 	}
@@ -94,38 +99,37 @@ public class Game {
         	for (Station s : current) {
         		if (!drew.contains(s)) {
     				if (network.isSink(s)) {
-    		        	StdDraw.setPenColor(StdDraw.BLACK);
-    		        	//StdDraw.text(s.getX() / 10.0, (s.getY() - 0.5) / 10.0, "Sink");
     		        	StdDraw.setPenColor(StdDraw.GREEN);
     				}
     				else if (network.isSrc(s)) {
-    					StdDraw.setPenColor(StdDraw.BLACK);
-    		        	//StdDraw.text(s.getX() / 10.0, (s.getY() - 0.5) / 10.0, "Source");
     					StdDraw.setPenColor(StdDraw.BLUE);
     				}
     				else {
-        	        	StdDraw.setPenColor(StdDraw.RED);
+        	        	StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
     				}
-    				StdDraw.filledCircle(s.getX() / 10.0, s.getY() / 10.0, 0.03);
-    	        	StdDraw.setPenColor(StdDraw.BLACK);
-		        	StdDraw.text(s.getX() / 10.0, (s.getY() + 0.5) / 10.0, s.getName());
+    				StdDraw.filledCircle(s.getX() / fmaxCoord, s.getY() / fmaxCoord, 0.01);
+    	        	StdDraw.setPenColor(StdDraw.RED);
+		        	StdDraw.text(s.getX() / fmaxCoord, (s.getY() + 0.5) / fmaxCoord, s.getName());
 
     				drew.add(s);
     			}
         	}
         	
 			
-			StdDraw.setPenColor(selectedEdges.contains(e) ? StdDraw.LIGHT_GRAY : StdDraw.BLACK);
-			StdDraw.line(src.getX() / 10.0, src.getY() / 10.0, dest.getX() / 10.0, dest.getY() / 10.0);
-			StdDraw.text((src.getX() + dest.getX() + 0.5) / 20.0, (src.getY() + dest.getY() - 0.5) / 20.0, "" + e.capacity);
+			StdDraw.setPenColor(selectedEdges.contains(e) ? StdDraw.RED : StdDraw.BLACK);
+			StdDraw.line(src.getX() / fmaxCoord, src.getY() / fmaxCoord, dest.getX() / fmaxCoord, dest.getY() / fmaxCoord);
 			int vecX = dest.getX() - src.getX();
 			int vecY = dest.getY() - src.getY();
-			double originArrowX = (src.getX() + 0.5 * vecX) / 10.0;
-			double originArrowY = (src.getY() + 0.5 * vecY) / 10.0;
+			double originArrowX = (src.getX() + 0.5 * vecX) / fmaxCoord;
+			double originArrowY = (src.getY() + 0.5 * vecY) / fmaxCoord;
 			edgeToClickablePoint.put(e, new Double[] {originArrowX, originArrowY});
 			//StdDraw.line(originArrowX, originArrowY, x1, y1);
 			//StdDraw.filledPolygon(x, y);
-			drawArrowLine(src.getX() / 10.0, src.getY() / 10.0, originArrowX, originArrowY, 0.02, 0.02);
+			drawArrowLine(src.getX() / fmaxCoord, src.getY() / fmaxCoord, originArrowX, originArrowY, 0.01, 0.005);
+
+			StdDraw.setPenColor(StdDraw.BLUE);
+			StdDraw.text((src.getX() + dest.getX() + 0.5) / (2 *fmaxCoord), (src.getY() + dest.getY() - 0.5) / (2*fmaxCoord), "" + e.capacity);
+
 		}
 		
 	}
@@ -177,7 +181,7 @@ public class Game {
 					//Station[] stations = {edgeToSrc.get(e), edgeToDest.get(e)};
 					
 					Double[] clickPoint = edgeToClickablePoint.get(e);
-					if (Math.pow(StdDraw.mouseX() - clickPoint[0], 2) + Math.pow(StdDraw.mouseY() - clickPoint[1], 2) < 0.0025 ) {
+					if (Math.pow(StdDraw.mouseX() - clickPoint[0], 2) + Math.pow(StdDraw.mouseY() - clickPoint[1], 2) < 0.0005 ) {
 						if (selectedEdges.contains(e)) {
 							removedSumPlayer -= e.capacity;
 							selectedEdges.remove(e);

@@ -55,8 +55,16 @@ public class App {
 		while (br.ready()) {
 			String line = br.readLine();
 			String[] props = line.split(" ");
-			tempStationMap.put(props[0], new Station (props[0], Integer.parseInt(props[1]), Integer.parseInt(props[2])));
+			int x = Integer.parseInt(props[1]);
+			int y = Integer.parseInt(props[2]);
+			Game.maxCoord = Math.max(Game.maxCoord, x);
+			Game.maxCoord = Math.max(Game.maxCoord, y);
+			tempStationMap.put(props[0], new Station (props[0], x, y));
 			
+		}
+
+		for (Station s : tempStationMap.values()) {
+			s.setY(Game.maxCoord - s.getY());
 		}
 		
 		br= new BufferedReader(new InputStreamReader(edgesIs));
