@@ -41,6 +41,5 @@ BFS has a complexity of O(V+E)
 Looping through outgoing edges of a Vertex has O(Ea) complexity, where Ea is the average number of edges per vertex.
 So the complexity of this algorithm is O(Ea(V+E))
 
-## Complexity of min-cut
 
-Note: this program is made for directed flow networks. It will work as an undirected flow network only if, in the data files, eache edge has a copy of itself with reverted vertices. However, the GUI will not be adapted for such cases.
+## Note: this program is made for directed flow networks. It will work as an undirected flow network only if, in the data files, eache edge has a copy of itself with reverted vertices. However, the GUI will not be adapted for such cases.
